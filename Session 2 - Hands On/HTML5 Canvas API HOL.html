@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HTML5 Canvas API HOL</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+<style type="text/css">
+.highlight  { background: #ffffff; }
+.highlight .c { color: #999988; font-style: italic } /* Comment */
+.highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
+.highlight .k { font-weight: bold } /* Keyword */
+.highlight .o { font-weight: bold } /* Operator */
+.highlight .cm { color: #999988; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #999999; font-weight: bold } /* Comment.Preproc */
+.highlight .c1 { color: #999988; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #999999; font-weight: bold; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
+.highlight .gd .x { color: #000000; background-color: #ffaaaa } /* Generic.Deleted.Specific */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #aa0000 } /* Generic.Error */
+.highlight .gh { color: #999999 } /* Generic.Heading */
+.highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
+.highlight .gi .x { color: #000000; background-color: #aaffaa } /* Generic.Inserted.Specific */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #555555 } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #aaaaaa } /* Generic.Subheading */
+.highlight .gt { color: #aa0000 } /* Generic.Traceback */
+.highlight .kc { font-weight: bold } /* Keyword.Constant */
+.highlight .kd { font-weight: bold } /* Keyword.Declaration */
+.highlight .kp { font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #445588; font-weight: bold } /* Keyword.Type */
+.highlight .m { color: #009999 } /* Literal.Number */
+.highlight .s { color: #d14 } /* Literal.String */
+.highlight .na { color: #008080 } /* Name.Attribute */
+.highlight .nb { color: #0086B3 } /* Name.Builtin */
+.highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
+.highlight .no { color: #008080 } /* Name.Constant */
+.highlight .ni { color: #800080 } /* Name.Entity */
+.highlight .ne { color: #990000; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #990000; font-weight: bold } /* Name.Function */
+.highlight .nn { color: #555555 } /* Name.Namespace */
+.highlight .nt { color: #000080 } /* Name.Tag */
+.highlight .nv { color: #008080 } /* Name.Variable */
+.highlight .ow { font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #009999 } /* Literal.Number.Float */
+.highlight .mh { color: #009999 } /* Literal.Number.Hex */
+.highlight .mi { color: #009999 } /* Literal.Number.Integer */
+.highlight .mo { color: #009999 } /* Literal.Number.Oct */
+.highlight .sb { color: #d14 } /* Literal.String.Backtick */
+.highlight .sc { color: #d14 } /* Literal.String.Char */
+.highlight .sd { color: #d14 } /* Literal.String.Doc */
+.highlight .s2 { color: #d14 } /* Literal.String.Double */
+.highlight .se { color: #d14 } /* Literal.String.Escape */
+.highlight .sh { color: #d14 } /* Literal.String.Heredoc */
+.highlight .si { color: #d14 } /* Literal.String.Interpol */
+.highlight .sx { color: #d14 } /* Literal.String.Other */
+.highlight .sr { color: #009926 } /* Literal.String.Regex */
+.highlight .s1 { color: #d14 } /* Literal.String.Single */
+.highlight .ss { color: #990073 } /* Literal.String.Symbol */
+.highlight .bp { color: #999999 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #008080 } /* Name.Variable.Class */
+.highlight .vg { color: #008080 } /* Name.Variable.Global */
+.highlight .vi { color: #008080 } /* Name.Variable.Instance */
+.highlight .il { color: #009999 } /* Literal.Number.Integer.Long */
+.pl-c {
+    color: #969896;
+}
+
+.pl-c1,.pl-mdh,.pl-mm,.pl-mp,.pl-mr,.pl-s1 .pl-v,.pl-s3,.pl-sc,.pl-sv {
+    color: #0086b3;
+}
+
+.pl-e,.pl-en {
+    color: #795da3;
+}
+
+.pl-s1 .pl-s2,.pl-smi,.pl-smp,.pl-stj,.pl-vo,.pl-vpf {
+    color: #333;
+}
+
+.pl-ent {
+    color: #63a35c;
+}
+
+.pl-k,.pl-s,.pl-st {
+    color: #a71d5d;
+}
+
+.pl-pds,.pl-s1,.pl-s1 .pl-pse .pl-s2,.pl-sr,.pl-sr .pl-cce,.pl-sr .pl-sra,.pl-sr .pl-sre,.pl-src,.pl-v {
+    color: #df5000;
+}
+
+.pl-id {
+    color: #b52a1d;
+}
+
+.pl-ii {
+    background-color: #b52a1d;
+    color: #f8f8f8;
+}
+
+.pl-sr .pl-cce {
+    color: #63a35c;
+    font-weight: bold;
+}
+
+.pl-ml {
+    color: #693a17;
+}
+
+.pl-mh,.pl-mh .pl-en,.pl-ms {
+    color: #1d3e81;
+    font-weight: bold;
+}
+
+.pl-mq {
+    color: #008080;
+}
+
+.pl-mi {
+    color: #333;
+    font-style: italic;
+}
+
+.pl-mb {
+    color: #333;
+    font-weight: bold;
+}
+
+.pl-md,.pl-mdhf {
+    background-color: #ffecec;
+    color: #bd2c00;
+}
+
+.pl-mdht,.pl-mi1 {
+    background-color: #eaffea;
+    color: #55a532;
+}
+
+.pl-mdr {
+    color: #795da3;
+    font-weight: bold;
+}
+
+.pl-mo {
+    color: #1d3e81;
+}
+.task-list {
+padding-left:10px;
+margin-bottom:0;
+}
+
+.task-list li {
+    margin-left: 20px;
+}
+
+.task-list-item {
+list-style-type:none;
+padding-left:10px;
+}
+
+.task-list-item label {
+font-weight:400;
+}
+
+.task-list-item.enabled label {
+cursor:pointer;
+}
+
+.task-list-item+.task-list-item {
+margin-top:3px;
+}
+
+.task-list-item-checkbox {
+display:inline-block;
+margin-left:-20px;
+margin-right:3px;
+vertical-align:1px;
+}
+</style>
+</head>
+<body>
+<p><a name="HOLTitle"></a></p>
+<h1>Using the HTML5 Canvas API to Build Rich Web Apps</h1>
+<hr>
+<p><a name="Overview"></a></p>
+<h2>Overview</h2>
+<p>HTML5 is the newest version of HTML, and is the basis for numerous rich and interactive Web pages as well as cross-platform mobile apps. More than just a markup language, HTML5 exposes a set of APIs that can be called from within a browser to draw onto a Web page, store data locally, get the user's current location, establish 2-way connections between browsers and Web servers, read the contents of files, play audio and video, and much more. HTML5 is constantly evolving with new features and APIs, and browser vendors such as Google and Microsoft are constantly updating their browsers to support the latest and greatest features of the platform.</p>
+<p>One of the most compelling features of HTML5 is the <a href="http://www.w3.org/TR/2dcontext/">Canvas API</a>, which allows JavaScript code to draw directly into a browser window. To use the Canvas API, you begin by declaring one or more &lt;canvas&gt; elements in a page. Then you write code that retrieves a rendering context for a canvas, and call functions on the rendering context to draw pixels, lines, shapes, images, text, drop shadows, gradients, and more. The chart below was drawn entirely with the Canvas API, and uses just a few of the many functions that are available.</p>
+<p><a href="Images/canvas-chart.png" target="_blank"><img src="Images/canvas-chart.png" alt="Chart drawn with the HTML5 Canvas API" style="max-width:100%;"></a></p>
+<p><em>Chart drawn with the HTML5 Canvas API</em></p>
+<p>In this lab, you will create a Web page that combines the HTML5 Canvas API with jQuery to display an interactive puzzle — one in which an image is programmatically divided into squares and the user is invited to scramble the image (and later unscramble it) by clicking individual squares. It is just one example of the kinds of interfaces you can build with the Canvas API. And it's a great place to start if you are new to HTML5 and are curious about why it is receiving so much attention in the development community.</p>
+<p><a name="Objectives"></a></p>
+<h3>Objectives</h3>
+<p>In this hands-on lab, you will learn how to:</p>
+<ul>
+<li>Create and configure an HTML5 project in Visual Studio Code</li>
+<li>Use the HTML5 Canvas API to subdivide an image into pieces</li>
+<li>Draw an image (or part of an image) onto an HTML5 canvas</li>
+<li>Manipulate HTML5 canvases with jQuery</li>
+</ul>
+<p><a name="Prerequisites"></a></p>
+<h3>Prerequisites</h3>
+<p>The following are required to complete this hands-on lab:</p>
+<ul>
+<li><a href="http://code.visualstudio.com">Visual Studio Code</a></li>
+<li>An HTML5 browser such as Edge, Chrome, Safari, or Firefox</li>
+</ul>
+<hr>
+<p><a name="Exercises"></a></p>
+<h2>Exercises</h2>
+<p>This hands-on lab includes the following exercises:</p>
+<ul>
+<li><a href="#Exercise1">Exercise 1: Create an HTML5 project in Visual Studio Code</a></li>
+<li><a href="#Exercise2">Exercise 2: Use the Canvas API to cut the image into squares</a></li>
+<li><a href="#Exercise3">Exercise 3: Use jQuery to make the puzzle interactive</a></li>
+</ul>
+<p>Estimated time to complete this lab: <strong>30</strong> minutes.</p>
+<p><a name="Exercise1"></a></p>
+<h2>Exercise 1: Create an HTML5 project in Visual Studio Code</h2>
+<p>You will use Visual Studio Code — Microsoft's free and cross-platform code editor — to build a Web site containing an HTML5 page. If you haven't already installed Visual Studio Code, please download it from <a href="http://code.visualstudio.com">http://code.visualstudio.com</a> and install it now. You can use another code editor if you  would prefer, but the instructions in this lab assume you are using Visual Studio Code.</p>
+<ol>
+<li>
+<p>Create a directory named "HTML5Lab" in the location on your choice to serve as the project directory.</p>
+</li>
+<li>
+<p>Start Visual Studio Code and use the <strong>File -&gt; Open Folder</strong> command (on a Mac, <strong>File -&gt; Open</strong>) to open the folder you created in the previous step.</p>
+</li>
+<li>
+<p>Click the <strong>New File</strong> button in the EXPLORER panel and create a new file named <strong>index.html</strong> in the project directory.</p>
+<p><a href="Images/new-file.png" target="_blank"><img src="Images/new-file.png" alt="Adding a file to the project directory" style="max-width:100%;"></a></p>
+<p><em>Adding a file to the project directory</em></p>
+</li>
+<li>
+<p>Add the following markup to <strong>index.html</strong>, and then save the file:</p>
+<div class="highlight highlight-text-html-basic"><pre>&lt;!DOCTYPE html&gt;
+&lt;<span class="pl-ent">html</span>&gt;
+&lt;<span class="pl-ent">head</span>&gt;
+    &lt;<span class="pl-ent">meta</span> <span class="pl-e">charset</span>=<span class="pl-s"><span class="pl-pds">"</span>utf-8<span class="pl-pds">"</span></span> /&gt;
+    &lt;<span class="pl-ent">meta</span> <span class="pl-e">http-equiv</span>=<span class="pl-s"><span class="pl-pds">"</span>X-UA-Compatible<span class="pl-pds">"</span></span> <span class="pl-e">content</span>=<span class="pl-s"><span class="pl-pds">"</span>IE=Edge<span class="pl-pds">"</span></span> /&gt; 
+    &lt;<span class="pl-ent">link</span> <span class="pl-e">rel</span>=<span class="pl-s"><span class="pl-pds">"</span>stylesheet<span class="pl-pds">"</span></span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/css<span class="pl-pds">"</span></span> <span class="pl-e">href</span>=<span class="pl-s"><span class="pl-pds">"</span>assets/styles.css<span class="pl-pds">"</span></span>&gt;
+&lt;/<span class="pl-ent">head</span>&gt;
+
+&lt;<span class="pl-ent">body</span>&gt;
+    &lt;<span class="pl-ent">div</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>main<span class="pl-pds">"</span></span>&gt;
+        &lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>assets/scene.png<span class="pl-pds">"</span></span> /&gt;
+    &lt;/<span class="pl-ent">div</span>&gt;
+&lt;/<span class="pl-ent">body</span>&gt;
+&lt;/<span class="pl-ent">html</span>&gt;</pre></div>
+<blockquote>
+<p>The DOCTYPE lement in the first line identifies this page as an HTML5 page. Some browsers will not honor HTML5 conventions in a page unless that page begins with this statement.</p>
+</blockquote>
+</li>
+<li>
+<p>Click the <strong>New Folder</strong> button in the EXPLORER panel and create a new folder named "assets" in the project directory.</p>
+<p><a href="Images/new-folder.png" target="_blank"><img src="Images/new-folder.png" alt="Adding a folder to the project directory" style="max-width:100%;"></a></p>
+<p><em>Adding a folder to the project directory</em></p>
+</li>
+<li>
+<p>Right-click (on a Mac, Control-click) the "assets" folder and select <strong>New File</strong> from the ensuing menu to add a new file to the "assets" folder. Name the file <strong>styles.css</strong>.</p>
+<p><a href="Images/add-file-to-assets.png" target="_blank"><img src="Images/add-file-to-assets.png" alt="Adding styles.css to the &quot;assets&quot; folder" style="max-width:100%;"></a></p>
+<p><em>Adding styles.css to the "assets" folder</em></p>
+</li>
+<li>
+<p>Add the following statements to <strong>styles.css</strong>, and then save the file:</p>
+<div class="highlight highlight-source-css"><pre><span class="pl-ent">body</span> {
+    <span class="pl-c1"><span class="pl-c1">background-color</span></span>: <span class="pl-c1">#404040</span>;
+}
+<span class="pl-e">#main</span> { 
+    <span class="pl-c1"><span class="pl-c1">position</span></span>: <span class="pl-c1">absolute</span>;
+    <span class="pl-c1"><span class="pl-c1">width</span></span>: <span class="pl-c1">600<span class="pl-k">px</span></span>;
+    <span class="pl-c1"><span class="pl-c1">height</span></span>: <span class="pl-c1">450<span class="pl-k">px</span></span>;
+    <span class="pl-c1"><span class="pl-c1">top</span></span>: <span class="pl-c1">50<span class="pl-k">%</span></span>;
+    <span class="pl-c1"><span class="pl-c1">left</span></span>: <span class="pl-c1">50<span class="pl-k">%</span></span>;
+    <span class="pl-c1"><span class="pl-c1">margin-left</span></span>: <span class="pl-c1">-300<span class="pl-k">px</span></span>;
+    <span class="pl-c1"><span class="pl-c1">margin-top</span></span>: <span class="pl-c1">-225<span class="pl-k">px</span></span>;
+}</pre></div>
+</li>
+<li>
+<p>Find the file named <strong>scene.png</strong> in this lab's "resources" directory and drag it over to Visual Studio Code. Drop it over the "assets" folder in the EXPLORER panel to copy the file to the "assets" folder.</p>
+</li>
+<li>
+<p>Press <strong>Ctrl+Shift+B</strong> (on a Mac, <strong>Command+Shift+B</strong>) and click <strong>Configure Task Runner</strong>.</p>
+<p><a href="Images/configure-task-runner.png" target="_blank"><img src="Images/configure-task-runner.png" alt="Configuring a task runner" style="max-width:100%;"></a></p>
+<p><em>Configuring a task runner</em></p>
+</li>
+<li>
+<p>Select <strong>Others</strong> from the ensuing menu.</p>
+<p><a href="Images/select-task-runner.png" target="_blank"><img src="Images/select-task-runner.png" alt="Selecting a task runner" style="max-width:100%;"></a></p>
+<p><em>Selecting a task runner</em></p>
+</li>
+<li>
+<p>If you are running Windows, replace the contents of the <strong>tasks.json</strong> file that is created with the following statements:</p>
+<div class="highlight highlight-source-json"><pre>{
+    <span class="pl-s"><span class="pl-pds">"</span>version<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0.1.0<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>command<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>launch<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>windows<span class="pl-pds">"</span></span>: {
+        <span class="pl-s"><span class="pl-pds">"</span>command<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>explorer<span class="pl-pds">"</span></span>
+    },
+    <span class="pl-s"><span class="pl-pds">"</span>args<span class="pl-pds">"</span></span>: [<span class="pl-s"><span class="pl-pds">"</span>index.html<span class="pl-pds">"</span></span>]
+}</pre></div>
+<p>If you are using a Mac instead, replace the contents of <strong>tasks.json</strong> with these statements:</p>
+<div class="highlight highlight-source-json"><pre>{
+    <span class="pl-s"><span class="pl-pds">"</span>version<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0.1.0<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>command<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>launch<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>osx<span class="pl-pds">"</span></span>: {
+        <span class="pl-s"><span class="pl-pds">"</span>command<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>open<span class="pl-pds">"</span></span>
+    },
+    <span class="pl-s"><span class="pl-pds">"</span>args<span class="pl-pds">"</span></span>: [<span class="pl-s"><span class="pl-pds">"</span>index.html<span class="pl-pds">"</span></span>]
+}</pre></div>
+<p>If you are running Linux, replace the contents of <strong>tasks.json</strong> with these statements:</p>
+<div class="highlight highlight-source-json"><pre>{
+    <span class="pl-s"><span class="pl-pds">"</span>version<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0.1.0<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>command<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>launch<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>linux<span class="pl-pds">"</span></span>: {
+        <span class="pl-s"><span class="pl-pds">"</span>command<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>xdg-open<span class="pl-pds">"</span></span>
+    },
+    <span class="pl-s"><span class="pl-pds">"</span>args<span class="pl-pds">"</span></span>: [<span class="pl-s"><span class="pl-pds">"</span>index.html<span class="pl-pds">"</span></span>]
+}</pre></div>
+<p>Once these changes are made, save your changes to <strong>tasks.json</strong>.</p>
+<blockquote>
+<p>The purpose adding these statements to <strong>tasks.json</strong> is to allow you to launch index.html in a browser directly from Visual Studio Code. In its current form, this JSON script always launches index.html. If you had multiple pages in your project and wanted to configure Visual Studio Code to launch the page that is currently selected, you could replace "index.html" in the script with "${file}". In addition, if you would rather launch a specific browser rather than the default browser, simply specify the path to the browser executable for "command" in place of "explorer," "open," or "xdg-open."</p>
+</blockquote>
+</li>
+<li>
+<p>Press <strong>Ctrl+Shift+B</strong> (on a Mac, <strong>Command+Shift+B</strong>) again and confirm that a browser opens displaying index.html, and that index.html contains the following image:</p>
+<p><a href="Images/puzzle-page-1.png" target="_blank"><img src="Images/puzzle-page-1.png" alt="index.html displayed in the browser" style="max-width:100%;"></a></p>
+<p><em>index.html displayed in the browser</em></p>
+</li>
+<li>
+<p>Close your browser and return to Visual Studio Code.</p>
+</li>
+</ol>
+<p>Visual Studio Code is now configured to launch <strong>index.html</strong> in a browser. The next step is to modify <strong>index.html</strong> to use the HTML5 Canvas API to do something more interesting with the image that is displayed.</p>
+<p><a name="Exercise2"></a></p>
+<h2>Exercise 2: Use the Canvas API to cut the image into squares</h2>
+<p>The Canvas API is one of HTML5's most powerful APIs. With it, you can draw onto &lt;canvas&gt; elements declared in a page. You can even take an existing image such as <strong>scene.png</strong> and "cut" it into squares, drawing each square onto a separate canvas. In this exercise, you will add JavaScript code to <strong>index.html</strong> to divide <strong>scene.png</strong> into squares (canvases) aligned in a 4x3 array to show the original image.</p>
+<ol>
+<li>
+<p>Open <strong>index.html</strong> in Visual Studio Code and replace its contents with the following markup:</p>
+<div class="highlight highlight-text-html-basic"><pre>&lt;!DOCTYPE html&gt;
+&lt;<span class="pl-ent">html</span>&gt;
+&lt;<span class="pl-ent">head</span>&gt;
+    &lt;<span class="pl-ent">meta</span> <span class="pl-e">charset</span>=<span class="pl-s"><span class="pl-pds">"</span>utf-8<span class="pl-pds">"</span></span> /&gt;
+    &lt;<span class="pl-ent">meta</span> <span class="pl-e">http-equiv</span>=<span class="pl-s"><span class="pl-pds">"</span>X-UA-Compatible<span class="pl-pds">"</span></span> <span class="pl-e">content</span>=<span class="pl-s"><span class="pl-pds">"</span>IE=Edge<span class="pl-pds">"</span></span> /&gt; 
+    &lt;<span class="pl-ent">link</span> <span class="pl-e">rel</span>=<span class="pl-s"><span class="pl-pds">"</span>stylesheet<span class="pl-pds">"</span></span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/css<span class="pl-pds">"</span></span> <span class="pl-e">href</span>=<span class="pl-s"><span class="pl-pds">"</span>assets/styles.css<span class="pl-pds">"</span></span>&gt;
+<span class="pl-s1">    &lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>https://code.jquery.com/jquery-2.2.4.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</span>
+
+<span class="pl-s1">    &lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span>&gt;</span>
+<span class="pl-s1">        <span class="pl-k">var</span> _row <span class="pl-k">=</span> <span class="pl-c1">2</span>; <span class="pl-c">// Row containing empty square</span></span>
+<span class="pl-s1">        <span class="pl-k">var</span> _col <span class="pl-k">=</span> <span class="pl-c1">3</span>; <span class="pl-c">// Column containing empty square</span></span>
+<span class="pl-s1"></span>
+<span class="pl-s1">        <span class="pl-en">$</span>(<span class="pl-k">function</span> () {</span>
+<span class="pl-s1">            <span class="pl-k">if</span> (<span class="pl-k">!</span><span class="pl-c1">document</span>.<span class="pl-c1">createElement</span>(<span class="pl-s"><span class="pl-pds">"</span>canvas<span class="pl-pds">"</span></span>).<span class="pl-smi">getContext</span>) {</span>
+<span class="pl-s1">                <span class="pl-en">alert</span>(<span class="pl-s"><span class="pl-pds">"</span>This browser doesn't support the HTML5 Canvas API<span class="pl-pds">"</span></span>);</span>
+<span class="pl-s1">                <span class="pl-k">return</span>;</span>
+<span class="pl-s1">            }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">            <span class="pl-c">// Load the puzzle image</span></span>
+<span class="pl-s1">            <span class="pl-k">var</span> image <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Image</span>();</span>
+<span class="pl-s1">            <span class="pl-smi">image</span>.<span class="pl-smi">src</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>assets/scene.png<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">            <span class="pl-smi">image</span>.<span class="pl-en">onload</span> <span class="pl-k">=</span> <span class="pl-k">function</span> () {</span>
+<span class="pl-s1">                <span class="pl-c">// Draw sections of the image into the puzzle pieces</span></span>
+<span class="pl-s1">                <span class="pl-k">for</span> (<span class="pl-k">var</span> row <span class="pl-k">=</span> <span class="pl-c1">0</span>; row <span class="pl-k">&lt;</span> <span class="pl-c1">3</span>; row<span class="pl-k">++</span>) {</span>
+<span class="pl-s1">                    <span class="pl-k">for</span> (<span class="pl-k">var</span> col <span class="pl-k">=</span> <span class="pl-c1">0</span>; col <span class="pl-k">&lt;</span> <span class="pl-c1">4</span>; col<span class="pl-k">++</span>) {</span>
+<span class="pl-s1">                        <span class="pl-k">if</span> (<span class="pl-k">!</span>(row <span class="pl-k">==</span> <span class="pl-c1">2</span> <span class="pl-k">&amp;&amp;</span> col <span class="pl-k">==</span> <span class="pl-c1">3</span>)) {</span>
+<span class="pl-s1">                            <span class="pl-k">var</span> context <span class="pl-k">=</span> <span class="pl-c1">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span> <span class="pl-k">+</span> row <span class="pl-k">+</span> col).<span class="pl-c1">getContext</span>(<span class="pl-s"><span class="pl-pds">"</span>2d<span class="pl-pds">"</span></span>);</span>
+<span class="pl-s1">                            <span class="pl-smi">context</span>.<span class="pl-en">drawImage</span>(image, col <span class="pl-k">*</span> <span class="pl-c1">150</span>, row <span class="pl-k">*</span> <span class="pl-c1">150</span>, <span class="pl-c1">150</span>, <span class="pl-c1">150</span>, <span class="pl-c1">0</span>, <span class="pl-c1">0</span>, <span class="pl-c1">150</span>, <span class="pl-c1">150</span>);</span>
+<span class="pl-s1">                        }</span>
+<span class="pl-s1">                    }</span>
+<span class="pl-s1">                }</span>
+<span class="pl-s1">            };</span>
+<span class="pl-s1">        });</span>
+<span class="pl-s1">    &lt;/<span class="pl-ent">script</span>&gt;</span>
+&lt;/<span class="pl-ent">head</span>&gt;
+
+&lt;<span class="pl-ent">body</span>&gt;
+    &lt;<span class="pl-ent">div</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>main<span class="pl-pds">"</span></span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c00<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 0px; top: 0px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c01<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 150px; top: 0px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c02<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 300px; top: 0px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c03<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 450px; top: 0px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c10<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 0px; top: 150px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c11<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 150px; top: 150px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c12<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 300px; top: 150px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c13<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 450px; top: 150px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c20<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 0px; top: 300px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c21<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 150px; top: 300px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c22<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 300px; top: 300px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+    &lt;/<span class="pl-ent">div</span>&gt;
+&lt;/<span class="pl-ent">body</span>&gt;
+&lt;/<span class="pl-ent">html</span>&gt;</pre></div>
+</li>
+<li>
+<p>Take a moment to examine the markup that you added. The &lt;img&gt; element that displays <strong>scene.png</strong> has been replaced with 11 &lt;canvas&gt; elements, each measuring 150 by 150 pixels. CSS positioning is used to arrange the &lt;canvas&gt; elements into rows and columns. In addition, the new markup includes a &lt;script&gt; element that loads jQuery from the jQuery CDN, as well as a &lt;script&gt; element containing code that programmatically loads <strong>scene.png</strong> and uses the Canvas API to draw portions of the image onto the individual canvases.</p>
+</li>
+<li>
+<p>Save your changes to <strong>index.html</strong> if you haven't already. Then press <strong>Ctrl+Shift+B</strong> (on a Mac, <strong>Command+Shift+B</strong>) to view <strong>index.html</strong> in your browser.</p>
+</li>
+<li>
+<p>Confirm that the page now resembles the one below, with the original image divided into squares and one square missing from the bottom right:</p>
+<p><a href="Images/puzzle-page-2.png" target="_blank"><img src="Images/puzzle-page-2.png" alt="The modified page" style="max-width:100%;"></a></p>
+<p><em>The modified page</em></p>
+</li>
+<li>
+<p>Close your browser and return to Visual Studio Code.</p>
+</li>
+</ol>
+<p><a name="Exercise3"></a></p>
+<h2>Exercise 3: Use jQuery to make the puzzle interactive</h2>
+<p><strong>index.html</strong> now resembles one of those children's puzzles in which you slide squares around to scramble an image, and then attempt to solve the puzzle by restoring the squares to their original positions. In this exercise, you will use jQuery to make the puzzle interactive, so that when a piece adjacent to the empty square is clicked, it slides into the empty square.</p>
+<ol>
+<li>
+<p>Open <strong>index.html</strong> in Visual Studio Code and replace its contents with the following markup:</p>
+<div class="highlight highlight-text-html-basic"><pre>&lt;!DOCTYPE html&gt;
+&lt;<span class="pl-ent">html</span>&gt;
+&lt;<span class="pl-ent">head</span>&gt;
+    &lt;<span class="pl-ent">meta</span> <span class="pl-e">charset</span>=<span class="pl-s"><span class="pl-pds">"</span>utf-8<span class="pl-pds">"</span></span> /&gt;
+    &lt;<span class="pl-ent">meta</span> <span class="pl-e">http-equiv</span>=<span class="pl-s"><span class="pl-pds">"</span>X-UA-Compatible<span class="pl-pds">"</span></span> <span class="pl-e">content</span>=<span class="pl-s"><span class="pl-pds">"</span>IE=Edge<span class="pl-pds">"</span></span> /&gt; 
+    &lt;<span class="pl-ent">link</span> <span class="pl-e">rel</span>=<span class="pl-s"><span class="pl-pds">"</span>stylesheet<span class="pl-pds">"</span></span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/css<span class="pl-pds">"</span></span> <span class="pl-e">href</span>=<span class="pl-s"><span class="pl-pds">"</span>assets/styles.css<span class="pl-pds">"</span></span>&gt;
+<span class="pl-s1">    &lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>https://code.jquery.com/jquery-2.2.4.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</span>
+
+<span class="pl-s1">    &lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span>&gt;</span>
+<span class="pl-s1">        <span class="pl-k">var</span> _row <span class="pl-k">=</span> <span class="pl-c1">2</span>; <span class="pl-c">// Row containing empty square</span></span>
+<span class="pl-s1">        <span class="pl-k">var</span> _col <span class="pl-k">=</span> <span class="pl-c1">3</span>; <span class="pl-c">// Column containing empty square</span></span>
+<span class="pl-s1"></span>
+<span class="pl-s1">        <span class="pl-en">$</span>(<span class="pl-k">function</span> () {</span>
+<span class="pl-s1">            <span class="pl-k">if</span> (<span class="pl-k">!</span><span class="pl-c1">document</span>.<span class="pl-c1">createElement</span>(<span class="pl-s"><span class="pl-pds">"</span>canvas<span class="pl-pds">"</span></span>).<span class="pl-smi">getContext</span>) {</span>
+<span class="pl-s1">                <span class="pl-en">alert</span>(<span class="pl-s"><span class="pl-pds">"</span>This browser doesn't support the HTML5 Canvas API<span class="pl-pds">"</span></span>);</span>
+<span class="pl-s1">                <span class="pl-k">return</span>;</span>
+<span class="pl-s1">            }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">            <span class="pl-c">// Load the puzzle image</span></span>
+<span class="pl-s1">            <span class="pl-k">var</span> image <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Image</span>();</span>
+<span class="pl-s1">            <span class="pl-smi">image</span>.<span class="pl-smi">src</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>assets/scene.png<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">            <span class="pl-smi">image</span>.<span class="pl-en">onload</span> <span class="pl-k">=</span> <span class="pl-k">function</span> () {</span>
+<span class="pl-s1">                <span class="pl-c">// Draw sections of the image into the puzzle pieces</span></span>
+<span class="pl-s1">                <span class="pl-k">for</span> (<span class="pl-k">var</span> row <span class="pl-k">=</span> <span class="pl-c1">0</span>; row <span class="pl-k">&lt;</span> <span class="pl-c1">3</span>; row<span class="pl-k">++</span>) {</span>
+<span class="pl-s1">                    <span class="pl-k">for</span> (<span class="pl-k">var</span> col <span class="pl-k">=</span> <span class="pl-c1">0</span>; col <span class="pl-k">&lt;</span> <span class="pl-c1">4</span>; col<span class="pl-k">++</span>) {</span>
+<span class="pl-s1">                        <span class="pl-k">if</span> (<span class="pl-k">!</span>(row <span class="pl-k">==</span> <span class="pl-c1">2</span> <span class="pl-k">&amp;&amp;</span> col <span class="pl-k">==</span> <span class="pl-c1">3</span>)) {</span>
+<span class="pl-s1">                            <span class="pl-k">var</span> context <span class="pl-k">=</span> <span class="pl-c1">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span> <span class="pl-k">+</span> row <span class="pl-k">+</span> col).<span class="pl-c1">getContext</span>(<span class="pl-s"><span class="pl-pds">"</span>2d<span class="pl-pds">"</span></span>);</span>
+<span class="pl-s1">                            <span class="pl-smi">context</span>.<span class="pl-en">drawImage</span>(image, col <span class="pl-k">*</span> <span class="pl-c1">150</span>, row <span class="pl-k">*</span> <span class="pl-c1">150</span>, <span class="pl-c1">150</span>, <span class="pl-c1">150</span>, <span class="pl-c1">0</span>, <span class="pl-c1">0</span>, <span class="pl-c1">150</span>, <span class="pl-c1">150</span>);</span>
+<span class="pl-s1">                        }</span>
+<span class="pl-s1">                    }</span>
+<span class="pl-s1">                }</span>
+<span class="pl-s1">            };</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">            <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>canvas<span class="pl-pds">"</span></span>).<span class="pl-c1">click</span>(<span class="pl-k">function</span> (<span class="pl-smi">e</span>) {</span>
+<span class="pl-s1">                <span class="pl-k">var</span> piece <span class="pl-k">=</span> <span class="pl-en">$</span>(<span class="pl-v">this</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">                <span class="pl-c">// Get the row and column</span></span>
+<span class="pl-s1">                <span class="pl-k">var</span> row <span class="pl-k">=</span> <span class="pl-smi">piece</span>.<span class="pl-en">position</span>().<span class="pl-c1">top</span> <span class="pl-k">/</span> <span class="pl-c1">150</span>;</span>
+<span class="pl-s1">                <span class="pl-k">var</span> col <span class="pl-k">=</span> <span class="pl-smi">piece</span>.<span class="pl-en">position</span>().<span class="pl-c1">left</span> <span class="pl-k">/</span> <span class="pl-c1">150</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">                <span class="pl-k">if</span> (row <span class="pl-k">==</span> _row <span class="pl-k">&amp;&amp;</span> col <span class="pl-k">==</span> _col <span class="pl-k">+</span> <span class="pl-c1">1</span>) {</span>
+<span class="pl-s1">                    <span class="pl-c">// Move left</span></span>
+<span class="pl-s1">                    <span class="pl-smi">piece</span>.<span class="pl-c1">animate</span>({ left<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>-=150px<span class="pl-pds">"</span></span> }, <span class="pl-s"><span class="pl-pds">"</span>fast<span class="pl-pds">"</span></span>);</span>
+<span class="pl-s1">                    _col<span class="pl-k">++</span>;</span>
+<span class="pl-s1">                }</span>
+<span class="pl-s1">                <span class="pl-k">else</span> <span class="pl-k">if</span> (row <span class="pl-k">==</span> _row <span class="pl-k">&amp;&amp;</span> col <span class="pl-k">==</span> _col <span class="pl-k">-</span> <span class="pl-c1">1</span>) {</span>
+<span class="pl-s1">                    <span class="pl-c">// Move right</span></span>
+<span class="pl-s1">                    <span class="pl-smi">piece</span>.<span class="pl-c1">animate</span>({ left<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>+=150px<span class="pl-pds">"</span></span> }, <span class="pl-s"><span class="pl-pds">"</span>fast<span class="pl-pds">"</span></span>);</span>
+<span class="pl-s1">                    _col<span class="pl-k">--</span>;</span>
+<span class="pl-s1">                }</span>
+<span class="pl-s1">                <span class="pl-k">else</span> <span class="pl-k">if</span> (col <span class="pl-k">==</span> _col <span class="pl-k">&amp;&amp;</span> row <span class="pl-k">==</span> _row <span class="pl-k">+</span> <span class="pl-c1">1</span>) {</span>
+<span class="pl-s1">                    <span class="pl-c">// Move up</span></span>
+<span class="pl-s1">                    <span class="pl-smi">piece</span>.<span class="pl-c1">animate</span>({ top<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>-=150px<span class="pl-pds">"</span></span> }, <span class="pl-s"><span class="pl-pds">"</span>fast<span class="pl-pds">"</span></span>);</span>
+<span class="pl-s1">                    _row<span class="pl-k">++</span>;</span>
+<span class="pl-s1">                }</span>
+<span class="pl-s1">                <span class="pl-k">else</span> <span class="pl-k">if</span> (col <span class="pl-k">==</span> _col <span class="pl-k">&amp;&amp;</span> row <span class="pl-k">==</span> _row <span class="pl-k">-</span> <span class="pl-c1">1</span>) {</span>
+<span class="pl-s1">                    <span class="pl-c">// Move down</span></span>
+<span class="pl-s1">                    <span class="pl-smi">piece</span>.<span class="pl-c1">animate</span>({ top<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>+=150px<span class="pl-pds">"</span></span> }, <span class="pl-s"><span class="pl-pds">"</span>fast<span class="pl-pds">"</span></span>);</span>
+<span class="pl-s1">                    _row<span class="pl-k">--</span>;</span>
+<span class="pl-s1">                }</span>
+<span class="pl-s1">            });</span>
+<span class="pl-s1">        });</span>
+<span class="pl-s1">    &lt;/<span class="pl-ent">script</span>&gt;</span>
+&lt;/<span class="pl-ent">head</span>&gt;
+
+&lt;<span class="pl-ent">body</span>&gt;
+    &lt;<span class="pl-ent">div</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>main<span class="pl-pds">"</span></span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c00<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 0px; top: 0px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c01<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 150px; top: 0px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c02<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 300px; top: 0px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c03<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 450px; top: 0px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c10<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 0px; top: 150px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c11<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 150px; top: 150px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c12<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 300px; top: 150px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c13<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 450px; top: 150px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c20<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 0px; top: 300px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c21<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 150px; top: 300px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+        &lt;<span class="pl-ent">canvas</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>c22<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>150<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>position: absolute; left: 300px; top: 300px; border: 1px solid gray<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">canvas</span>&gt;
+    &lt;/<span class="pl-ent">div</span>&gt;
+&lt;/<span class="pl-ent">body</span>&gt;
+&lt;/<span class="pl-ent">html</span>&gt;</pre></div>
+</li>
+<li>
+<p>Take a moment to examine what you added. The only difference is a new block of code that uses jQuery to find all the &lt;canvas&gt; elements in the page and attach a click handler to them. The click handler figures out which &lt;canvas&gt; element was clicked, determines whether it is adjacent to the empty square, and, if it is, uses jQuery's <em>animate</em> function to slide the canvas into a new position.</p>
+<blockquote>
+<p>If you have never used jQuery's <em>animate</em> function, this is a great example of how easily it enables you to add animations to Web pages, and is one of many reasons jQuery is one of the most popular JavaScript libraries on the planet.</p>
+</blockquote>
+</li>
+<li>
+<p>Save your changes to <strong>index.html</strong> if you haven't already. Then press <strong>Ctrl+Shift+B</strong> (on a Mac, <strong>Command+Shift+B</strong>) to view <strong>index.html</strong> in your browser.</p>
+</li>
+<li>
+<p>Click one of the puzzle pieces next to the empty square. Then repeat this process until the puzzle is thoroughly scrambled, as shown below.</p>
+<p><a href="Images/puzzle-page-3.png" target="_blank"><img src="Images/puzzle-page-3.png" alt="index.html with the pieces scrambled" style="max-width:100%;"></a></p>
+<p><em>index.html with the pieces scrambled</em></p>
+</li>
+</ol>
+<p>Can you solve the puzzle by restoring the pieces to their original positions? Give it a try, and if you are unable to, refresh the page in the browser to restore the puzzle to its original state.</p>
+<p><a name="Summary"></a></p>
+<h2>Summary</h2>
+<p>The Web page you built in this lab is just one example of the rich user interfaces you can build with the HTML5 Canvas API. Other uses for the Canvas API include drawing charts and graphs and building sophisticated animations. In this example, you used the Canvas API's <em>drawImage</em> function to "cut" an image into squares by drawing different parts of the image onto individual canvases. Then you used jQuery to make the page interactive by animating the movement of canvases. <em>drawImage</em> is one of dozens of functions comprising the Canvas API. For more information on <em>drawImage</em> and other members of the Canvas API, see <a href="http://www.w3.org/TR/2dcontext/">http://www.w3.org/TR/2dcontext/</a> for the official specification.</p>
+<hr>
+<p>Copyright 2016 Microsoft Corporation. All rights reserved. Except where otherwise noted, these materials are licensed under the terms of the MIT License. You may use them according to the license as is most appropriate for your project. The terms of this license can be found at <a href="https://opensource.org/licenses/MIT">https://opensource.org/licenses/MIT</a>.</p>
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
