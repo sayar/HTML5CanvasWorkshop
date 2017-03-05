@@ -360,6 +360,15 @@ The Canvas API is one of HTML5's most powerful APIs. With it, you can draw onto 
 
 Can you solve the puzzle by restoring the pieces to their original positions? Give it a try, and if you are unable to, refresh the page in the browser to restore the puzzle to its original state.
 
+<a name="Extension Ideas"></a>
+## Extensions Ideas ##
+
+**Easy**: Instead of splitting the image into three rows and four columns, write code that randomly chooses how much to split the image. The more rows and columns the harder the puzzle becomes to solve.
+
+**Medium**: Add the ability to load any image from a URL (or a random image from imgur) and generate a puzzle with that image. Having never seen the image before most uses will find it very difficult to solve the puzzle.
+
+**Stretch**: Don't split the puzzle into squares but instead cut the image with special curves using the [Bezier Curves](https://www.sitepoint.com/html5-canvas-draw-bezier-curves/) function. You will also have to make sure that pieces side by side are cut correctly and the image as a whole still fits together. 
+
 <a name="Summary"></a>
 ## Summary ##
 
