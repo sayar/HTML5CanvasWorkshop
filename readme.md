@@ -277,34 +277,6 @@ The Canvas API is one of HTML5's most powerful APIs. With it, you can draw onto 
 	    <meta http-equiv="X-UA-Compatible" content="IE=Edge" /> 
 	    <link rel="stylesheet" type="text/css" href="assets/styles.css">
 	    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-	
-	    <script type="text/javascript">
-	        var _row = 2; // Row containing empty square
-	        var _col = 3; // Column containing empty square
-	
-	        $(function () {
-	            if (!document.createElement("canvas").getContext) {
-	                alert("This browser doesn't support the HTML5 Canvas API");
-	                return;
-	            }
-	
-	            // Load the puzzle image
-	            var image = new Image();
-	            image.src = "assets/scene.png";
-	
-	            image.onload = function () {
-	                // Draw sections of the image into the puzzle pieces
-	                for (var row = 0; row < 3; row++) {
-	                    for (var col = 0; col < 4; col++) {
-	                        if (!(row == 2 && col == 3)) {
-	                            var context = document.getElementById("c" + row + col).getContext("2d");
-	                            context.drawImage(image, col * 150, row * 150, 150, 150, 0, 0, 150, 150);
-	                        }
-	                    }
-	                }
-	            };
-	        });
-	    </script>
 	</head>
 	
 	<body>
@@ -325,7 +297,49 @@ The Canvas API is one of HTML5's most powerful APIs. With it, you can draw onto 
 	</html>
     ```
 
-1. Take a moment to examine the markup that you added. The \<img\> element that displays **scene.png** has been replaced with 11 \<canvas\> elements, each measuring 150 by 150 pixels. CSS positioning is used to arrange the \<canvas\> elements into rows and columns. In addition, the new markup includes a \<script\> element that loads jQuery from the jQuery CDN, as well as a \<script\> element containing code that programmatically loads **scene.png** and uses the Canvas API to draw portions of the image onto the individual canvases.
+1. Take a moment to examine the markup that you added. The \<img\> element that displays **scene.png** has been replaced with 11 \<canvas\> elements, each measuring 150 by 150 pixels. CSS positioning is used to arrange the \<canvas\> elements into rows and columns. 
+
+1. We will also add a \<script\> element that loads jQuery from the jQuery CDN, as well as a \<script\> element containing code that programmatically loads **scene.png** and uses the Canvas API to draw portions of the image onto the individual canvases. Specifically, we will create two loops to clip the image and draw in the appropriate row/column canvas.
+
+* **img:** Specifies the image, canvas, or video element to use	 
+* **sx:** *Optional* The x coordinate where to start clipping
+* **sy:** *Optional* The y coordinate where to start clipping
+* **swidth:** *Optional* The width of the clipped image
+* **sheight:** *Optional* The height of the clipped image
+* **x:** The x coordinate where to place the image on the canvas
+* **y:** The y coordinate where to place the image on the canvas
+* **width:** *Optional* The width of the image to use (stretch or reduce the image)
+* **height:** *Optional* The height of the image to use (stretch or reduce the image)
+
+	```js
+	<script type="text/javascript">
+		var _row = 2; // Row containing empty square
+		var _col = 3; // Column containing empty square
+
+		$(function () {
+			if (!document.createElement("canvas").getContext) {
+				alert("This browser doesn't support the HTML5 Canvas API");
+				return;
+			}
+
+			// Load the puzzle image
+			var image = new Image();
+			image.src = "assets/scene.png";
+
+			image.onload = function () {
+				// Draw sections of the image into the puzzle pieces
+				for (var row = 0; row < 3; row++) {
+					for (var col = 0; col < 4; col++) {
+						if (!(row == 2 && col == 3)) {
+							var context = document.getElementById("c" + row + col).getContext("2d");
+							context.drawImage(image, col * 150, row * 150, 150, 150, 0, 0, 150, 150);
+						}
+					}
+				}
+			};
+		});
+	</script>
+	```
 
 1. Save your changes to **index.html** if you haven't already. Then press **Ctrl+Shift+B** (on a Mac, **Command+Shift+B**) to view **index.html** in your browser.
 
