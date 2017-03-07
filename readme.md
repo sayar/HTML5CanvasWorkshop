@@ -446,7 +446,7 @@ Can you solve the puzzle by restoring the pieces to their original positions? Gi
 <a name="Modernizing This Canvas"></a>
 ## Modernizing This Canvas ##
 
-TODO: ADD THIS SECTION
+To take a more modern approach to building our puzzle, we might want to consider not using the DOM as our data storage technique and having multiple canvas elements. Instead it might be more interesting to use one canvas element and store an abstract representation of our puzzle in JavaScript. You will also have to effectively create a render function yourself to refresh the canvas after every mouse click. At this point, it would be interesting to consider a canvas animation library like [EaselJS](http://www.createjs.com/easeljs).
 
 <a name="Extension Ideas"></a>
 ## Extensions Ideas ##
