@@ -1,0 +1,12 @@
+body {
+    background-color: #404040;
+}
+#main { 
+    position: absolute;
+    width: 600px;
+    height: 450px;
+    top: 50%;
+    left: 50%;
+    margin-left: -300px;
+    margin-top: -225px;
+}

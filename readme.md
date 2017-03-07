@@ -41,28 +41,19 @@ The following are required to complete this hands-on lab:
 
 This hands-on lab includes the following exercises:
 
-- [Exercise 1: Create an HTML5 project in Visual Studio Code](#Exercise1)
+- [Exercise 1: Learning The Canvas API](#Exercise1)
 - [Exercise 2: Use the Canvas API to cut the image into squares](#Exercise2)
 - [Exercise 3: Use jQuery to make the puzzle interactive](#Exercise3)
- 
-Estimated time to complete this lab: **30** minutes.
+- [Appendix 1: Create an HTML5 project in Visual Studio Code](#Appendix1) 
 
 <a name="Exercise1"></a>
-## Exercise 1: Create an HTML5 project in Visual Studio Code ##
+## Exercise 1: Learning The Canvas API ##
 
-You will use Visual Studio Code — Microsoft's free and cross-platform code editor — to build a Web site containing an HTML5 page. If you haven't already installed Visual Studio Code, please download it from http://code.visualstudio.com and install it now. You can use another code editor if you  would prefer, but the instructions in this lab assume you are using Visual Studio Code.
+If you would like to use Visual Studio Code for this lab, follow instructions in Appendix 1. You can use any code editor you have installed.
 
-1. Create a directory named "HTML5Lab" in the location on your choice to serve as the project directory.
+1. Open the directory **beginning**, it will contain a styles directory, an assets directory and an index.html file. .
 
-1. Start Visual Studio Code and use the **File -> Open Folder** command (on a Mac, **File -> Open**) to open the folder you created in the previous step.
-
-1. Click the **New File** button in the EXPLORER panel and create a new file named **index.html** in the project directory.
-
-    ![Adding a file to the project directory](Images/new-file.png)
-
-    _Adding a file to the project directory_
-
-1. Add the following markup to **index.html**, and then save the file:
+1. The following markup is in **index.html**:
 
 	```html
 	<!DOCTYPE html>
@@ -81,21 +72,9 @@ You will use Visual Studio Code — Microsoft's free and cross-platform code edi
 	</html>
 	````
 
-	> The DOCTYPE lement in the first line identifies this page as an HTML5 page. Some browsers will not honor HTML5 conventions in a page unless that page begins with this statement.
+	> The DOCTYPE element in the first line identifies this page as an HTML5 page. Some browsers will not honor HTML5 conventions in a page unless that page begins with this statement.
 
-1. Click the **New Folder** button in the EXPLORER panel and create a new folder named "assets" in the project directory.
-
-    ![Adding a folder to the project directory](Images/new-folder.png)
-
-    _Adding a folder to the project directory_
-
-1. Right-click (on a Mac, Control-click) the "assets" folder and select **New File** from the ensuing menu to add a new file to the "assets" folder. Name the file **styles.css**.
-
-    ![Adding styles.css to the "assets" folder](Images/add-file-to-assets.png)
-
-    _Adding styles.css to the "assets" folder_
-
-1. Add the following statements to **styles.css**, and then save the file:
+1. The following statements are in **styles.css**:
 
 	```css
     body {
@@ -112,72 +91,176 @@ You will use Visual Studio Code — Microsoft's free and cross-platform code edi
     }
 	````
 
-1. Find the file named **scene.png** in this lab's "resources" directory and drag it over to Visual Studio Code. Drop it over the "assets" folder in the EXPLORER panel to copy the file to the "assets" folder.
+	> The CSS statements gives our #main div an absolute size so that we can correctly position our elements when we start working on the puzzle exercise.
 
-1. Press **Ctrl+Shift+B** (on a Mac, **Command+Shift+B**) and click **Configure Task Runner**.
+1. To draw using the Canvas API is that we need to get a context for the context element. Calling getContext on a <canvas> element returns a reference to an instance of the CanvasRenderingContext2d. The CanvasRenderingContext2d:
 
-    ![Configuring a task runner](Images/configure-task-runner.png)
+* Provides methods for drawing primitives
+* Provides properties affecting what's drawn, including: strokeStyle and fillStyle lineWidth, lineCap, lineJoin, and miterLimit shadowOffsetX, shadowOffsetY, shadowBlur, and shadowColor, font, textAlign, textBaseline
+* Provides save and restore methods for saving and restoring canvas state (property values, transformation matrix, etc.)
+* Also includes globalAlpha and globalCompositeOperation properties ("global" properties)
 
-    _Configuring a task runner_
+1. Let's add a scratch canvas to our index.html page after the `<body>` element.
 
-1. Select **Others** from the ensuing menu.
+	```html
+	<canvas id="scratch" width="500" height="500"></canvas>
+	```
 
-    ![Selecting a task runner](Images/select-task-runner.png)
+1. Now let's add a `<script>` element to our `<head>` element so that we can easily execute some JavaScript.
 
-    _Selecting a task runner_
+1. To get the Canvas Rendering Context, use the following code:
 
-1. If you are running Windows, replace the contents of the **tasks.json** file that is created with the following statements:
+	```js
+	var canvas = document.getElementById("scratch");
+	var dc = canvas.getContext("2d");
+	```
 
-	```json
-	{
-	    "version": "0.1.0",
-	    "command": "launch",
-	    "windows": {
-	        "command": "explorer"
-	    },
-	    "args": ["index.html"]
+1. To draw rectangle, we can add the strokeRect function to our script element. The first and second parameters are the x, y coordinates on the canvas where we want the top-left point of the rectangle to start. The third and last paremeters are the width and height of the rectangle.
+
+	```js
+	dc.strokeRect(100, 50, 200, 100);
+	```	
+
+1. To change the stroke color, we can set the stroke style before calling the strokeRect() function. 
+
+	```js
+	dc.strokeStyle = "red";
+	```
+
+1. To change the stroke width, we can set the line width style before calling the strokeRect() function.
+
+	```js
+	dc.lineWidth = 8;
+	```
+
+1. To fill the rectangle with a color, we can call the fillRect() function instead of strokeRect().
+
+	```js
+	dc.fillRect(100, 50, 200, 100);
+	```
+
+1. To change the color of the fill, we can set the fillStyle property before calling the fillRect() function.
+
+	```js
+	dc.fillStyle = "red";
+	```
+
+1. To draw with a color gradient we will need to create a Linear Gradient object, add color stops and then assign it to the fillStyle. The four parameters passed to createLinearGradient are the coordinates x0, y0, x1, and y1, specifying the line along which the gradient is drawn. It's weird to have to set the gradient coordinates along with the rectangle coordinates. You can also fill rectangles (and other shapes) with radial gradients and with "patterns" -- images, videos, and other canvases.
+
+	```js
+	var gradient = dc.createLinearGradient(100, 50, 300, 50);
+	gradient.addColorStop(0, "red");
+	gradient.addColorStop(1, "yellow");
+	dc.fillStyle = gradient;
+	```
+
+1. To draw text, we can use the strokeText function. The strokeText method draws unfilled text. Properties such as font and strokeStyle control the visual attributes of the text that you draw.
+
+	```js
+	dc.font = "bold 72pt sans-serif";
+	dc.strokeStyle = "red";
+	dc.strokeText("HTML5", 40, 130);
+	```
+
+1. The fillText method draws filled text. Although not shown here, you can draw gradient text by assigning a gradient to fillStyle.
+
+	```js
+	dc.font = "bold 72pt sans-serif";
+	dc.fillStyle = "red";
+	dc.fillText("HTML5", 40, 130);
+	```
+
+1. You can draw drop shadows behind anything you draw with the Canvas API. The shadowOffsetX, shadowOffsetY, shadowBlur, and shadowColor properties of CanvasRenderingContext2d control the depth, color, and blurriness of the shadow. Note that alpha value of 0.5, which allows objects behind the drop shadow to partially show through. The ability to include alpha values in colors is new in HTML5. Note that "rgba(…)" is a string. It doesn't work if you omit the quotation marks.
+
+	```js
+	dc.shadowOffsetX = 4;
+	dc.shadowOffsetY = 4;
+	dc.shadowBlur = 8;
+	dc.shadowColor = "rgba(0, 0, 0, 0.5)";
+	dc.font = "bold 72pt sans-serif";
+	dc.fillStyle = "red";
+	dc.fillText("HTML5", 40, 130);
+	```
+
+1. You can draw an image using the drawImage function but you'll need to add it to the html. You can only draw images on window load after the image is ready, so we'll add a function for window.onload. Replace the contents of the script element with the below sample.
+
+	```html
+	<img id="flowers" src="assets/flowers.png" style="display: none" />
+	```
+
+	```js
+	// JavaScript
+	window.onload = function () {
+		var canvas = document.getElementById("scratch");
+		var dc = canvas.getContext("2d");
+		var image = document.getElementById("flowers");
+		dc.drawImage(image, 0, 0);
 	}
 	```
 
-	If you are using a Mac instead, replace the contents of **tasks.json** with these statements:
+1. You will notice that the image is a smaller than the canvas, you can scale the image by adding arguments to the drawImage function. 
 
-	```json
-	{
-	    "version": "0.1.0",
-	    "command": "launch",
-	    "osx": {
-	        "command": "open"
-	    },
-	    "args": ["index.html"]
+	```js
+    dc.drawImage(image, 0, 0, canvas.width, canvas.height);
+	```
+
+1. Rather than declare the image that you draw in the HTML, you can programmatically load the image. It is important not to draw the image until the browser fires an onload event indicating that the image has been loaded.
+
+	```js
+	// JavaScript
+	var image = new Image();
+	image.src = "assets/flowers.png";
+	image.onload = function () {
+		dc.drawImage(image, 0, 0);
 	}
 	```
 
-	If you are running Linux, replace the contents of **tasks.json** with these statements:
+1. This example generates a 100 x 100 image containing random colors and renders it to a canvas. It begins by calling createImageData to create an imageData object, whose data properties exposes the ARGB components of each pixel in the image. Then it assigns random values to the R, G, and G components of each pixel. One use for this technique is writing apps that draw fractal images.
 
-	```json
-	{
-	    "version": "0.1.0",
-	    "command": "launch",
-	    "linux": {
-	        "command": "xdg-open"
-	    },
-	    "args": ["index.html"]
+	```js
+	var bitmap = dc.createImageData(100, 100);
+
+	for (x = 0; x < bitmap.width; x++)
+		for (y = 0; y < bitmap.height; y++)
+			drawRandomColor(bitmap, x, y);
+
+	dc.putImageData(bitmap, 0, 0);
+
+	function drawRandomColor(bitmap, x, y) {
+		var index = (x + y * bitmap.width) << 2;
+		bitmap.data[index + 0] = Math.random() * 256; // Red
+		bitmap.data[index + 1] = Math.random() * 256; // Green
+		bitmap.data[index + 2] = Math.random() * 256; // Blue
+		bitmap.data[index + 3] = 255; // Alpha
 	}
 	```
 
-	Once these changes are made, save your changes to **tasks.json**.
+1. Sometimes we want to manipulate the image to create interesting filters. With this technique, it is possible to build photo-editing apps using HTML5. This is how you would implement a toGray() function:
 
-	> The purpose adding these statements to **tasks.json** is to allow you to launch index.html in a browser directly from Visual Studio Code. In its current form, this JSON script always launches index.html. If you had multiple pages in your project and wanted to configure Visual Studio Code to launch the page that is currently selected, you could replace "index.html" in the script with "${file}". In addition, if you would rather launch a specific browser rather than the default browser, simply specify the path to the browser executable for "command" in place of "explorer," "open," or "xdg-open."
+	```js
+	function toGray(bitmap, x, y) {
+		var index = (x + y * bitmap.width) << 2;
+		var r = bitmap.data[index + 0];
+		var g = bitmap.data[index + 1];
+		var b = bitmap.data[index + 2];
+		var gray = (0.3 * r) + (0.59 * g) + (0.11 * b);
+		bitmap.data[index + 0] = gray;
+		bitmap.data[index + 1] = gray;
+		bitmap.data[index + 2] = gray;
+	}
 
-1. Press **Ctrl+Shift+B** (on a Mac, **Command+Shift+B**) again and confirm that a browser opens displaying index.html, and that index.html contains the following image:
+	var image = new Image();
+	image.src = "assets/flowers.png";
+	image.onload = function () {
+		dc.drawImage(image, 0, 0, canvas.width, canvas.height);
+		bitmap = dc.getImageData(0, 0, canvas.width, canvas.height);
+		for (x = 0; x < bitmap.width; x++)
+			for (y = 0; y < bitmap.height; y++)
+				toGray(bitmap, x, y); // Helper function
 
-    ![index.html displayed in the browser](Images/puzzle-page-1.png)
-
-    _index.html displayed in the browser_
-
-1. Close your browser and return to Visual Studio Code.
-
-Visual Studio Code is now configured to launch **index.html** in a browser. The next step is to modify **index.html** to use the HTML5 Canvas API to do something more interesting with the image that is displayed.
+		dc.putImageData(bitmap, 0, 0);
+	}
+	```
 
 <a name="Exercise2"></a>
 ## Exercise 2: Use the Canvas API to cut the image into squares ##
@@ -360,6 +443,11 @@ The Canvas API is one of HTML5's most powerful APIs. With it, you can draw onto 
 
 Can you solve the puzzle by restoring the pieces to their original positions? Give it a try, and if you are unable to, refresh the page in the browser to restore the puzzle to its original state.
 
+<a name="Modernizing This Canvas"></a>
+## Modernizing This Canvas ##
+
+TODO: ADD THIS SECTION
+
 <a name="Extension Ideas"></a>
 ## Extensions Ideas ##
 
@@ -374,6 +462,91 @@ Can you solve the puzzle by restoring the pieces to their original positions? Gi
 
 The Web page you built in this lab is just one example of the rich user interfaces you can build with the HTML5 Canvas API. Other uses for the Canvas API include drawing charts and graphs and building sophisticated animations. In this example, you used the Canvas API's *drawImage* function to "cut" an image into squares by drawing different parts of the image onto individual canvases. Then you used jQuery to make the page interactive by animating the movement of canvases. *drawImage* is one of dozens of functions comprising the Canvas API. For more information on *drawImage* and other members of the Canvas API, see http://www.w3.org/TR/2dcontext/ for the official specification.
 
+<a name="Appendix1"></a>
+## Appendix 1: Create an HTML5 project in Visual Studio Code ##
+
+You can use Visual Studio Code — Microsoft's free and cross-platform code editor — to build a Web site containing an HTML5 page. If you haven't already installed Visual Studio Code, please download it from http://code.visualstudio.com. You can use another code editor if you  would prefer, but the instructions in this appendix assume you are using Visual Studio Code.
+
+1. Create a directory named "HTML5Lab" in the location on your choice to serve as the project directory.
+
+1. Start Visual Studio Code and use the **File -> Open Folder** command (on a Mac, **File -> Open**) to open the folder you created in the previous step.
+
+1. To create a new file, you can click the **New File** button in the EXPLORER panel and create a new file named **index.html** in the project directory.
+
+    ![Adding a file to the project directory](Images/new-file.png)
+
+    _Adding a file to the project directory_
+
+1. To create a new folder, you can click the **New Folder** button in the EXPLORER panel and create a new folder named "assets" in the project directory.
+
+    ![Adding a folder to the project directory](Images/new-folder.png)
+
+    _Adding a folder to the project directory_
+
+1. Press **Ctrl+Shift+B** (on a Mac, **Command+Shift+B**) and click **Configure Task Runner**.
+
+    ![Configuring a task runner](Images/configure-task-runner.png)
+
+    _Configuring a task runner_
+
+1. Select **Others** from the ensuing menu.
+
+    ![Selecting a task runner](Images/select-task-runner.png)
+
+    _Selecting a task runner_
+
+1. If you are running Windows, replace the contents of the **tasks.json** file that is created with the following statements:
+
+	```json
+	{
+	    "version": "0.1.0",
+	    "command": "launch",
+	    "windows": {
+	        "command": "explorer"
+	    },
+	    "args": ["index.html"]
+	}
+	```
+
+	If you are using a Mac instead, replace the contents of **tasks.json** with these statements:
+
+	```json
+	{
+	    "version": "0.1.0",
+	    "command": "launch",
+	    "osx": {
+	        "command": "open"
+	    },
+	    "args": ["index.html"]
+	}
+	```
+
+	If you are running Linux, replace the contents of **tasks.json** with these statements:
+
+	```json
+	{
+	    "version": "0.1.0",
+	    "command": "launch",
+	    "linux": {
+	        "command": "xdg-open"
+	    },
+	    "args": ["index.html"]
+	}
+	```
+
+	Once these changes are made, save your changes to **tasks.json**.
+
+	> The purpose adding these statements to **tasks.json** is to allow you to launch index.html in a browser directly from Visual Studio Code. In its current form, this JSON script always launches index.html. If you had multiple pages in your project and wanted to configure Visual Studio Code to launch the page that is currently selected, you could replace "index.html" in the script with "${file}". In addition, if you would rather launch a specific browser rather than the default browser, simply specify the path to the browser executable for "command" in place of "explorer," "open," or "xdg-open."
+
+1. Press **Ctrl+Shift+B** (on a Mac, **Command+Shift+B**) again and confirm that a browser opens displaying index.html, and that index.html contains the following image:
+
+    ![index.html displayed in the browser](Images/puzzle-page-1.png)
+
+    _index.html displayed in the browser_
+
+1. Close your browser and return to Visual Studio Code.
+
+Visual Studio Code is now configured to launch **index.html** in a browser. The next step is to modify **index.html** to use the HTML5 Canvas API to do something more interesting with the image that is displayed.
 
 ----
 
